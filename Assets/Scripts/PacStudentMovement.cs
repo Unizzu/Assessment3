@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class PacStudentMovement : MonoBehaviour
 {
-    private Tween tween;
-    private List<Tween> tweenList;
     private Vector3[] endPosArray;
-    private int endPosCounter;
+    private Vector3[] speedArray;
+    private int PosCounter;
     private Animator anim;
     private AudioSource sound;
     
     // Start is called before the first frame update
     void Start()
     {
-        tweenList = new List<Tween>();
         anim = GetComponent<Animator>();
         sound = GetComponent<AudioSource>();
         endPosArray = new Vector3[] { new Vector3(-3.5f, 4f, 0f), new Vector3(-3.5f, 2.78f, 0f), new Vector3(-5.04f, 2.78f, 0f), new Vector3(-5.04f, 4f, 0f)};
-        TweenSetup();
+        speedArray = new Vector3[] { new Vector3(1f, 0f, 0f), new Vector3(0f, -1f, 0f), new Vector3(-1f, 0f, 0f), new Vector3(0f, 1f, 0f)};
         anim.Play("PacStudentRight");
         sound.Play();
     }
@@ -30,26 +28,31 @@ public class PacStudentMovement : MonoBehaviour
         {
             Move();
         }*/
-        if (Vector3.Distance(transform.position, endPosArray[endPosCounter]) > 0.01f)
+        if (Vector3.Distance(transform.position, endPosArray[PosCounter]) > 0.05f)
         {
-            //Debug.Log("Moving...");
+            //Previous attempt to lerp the motion, unfortunately it eases motion so it's no good...
+            //
+            //Debug.Log("Moving..."); <- Debug statement to check if Pacstudent was moving
             //Debug.Log(currentTween.EndPos);
-            transform.position = Vector3.Lerp(transform.position, endPosArray[endPosCounter], Time.deltaTime / 0.25f);
+            //transform.position = Vector3.Lerp(transform.position, endPosArray[PosCounter], Time.deltaTime / 0.25f);
+
+
+            transform.Translate(speedArray[PosCounter] * Time.deltaTime);
         }
-        else
+        else if (Vector3.Distance(transform.position, endPosArray[PosCounter]) <= 0.05f)
         {
-            transform.position = endPosArray[endPosCounter];
-            endPosCounter++;
-            if(endPosCounter == 4)
+            transform.position = endPosArray[PosCounter];
+            PosCounter++;
+            if(PosCounter == 4)
             {
-                endPosCounter = 0;
+                PosCounter = 0;
             }
             
             //Debug.Log(endPosArray[endPosCounter]);
             //Debug.Log("Tween End!");
             //break;
         }
-        anim.SetInteger("moveIndicator", endPosCounter);
+        anim.SetInteger("moveIndicator", PosCounter);
 
     }
 
@@ -58,11 +61,14 @@ public class PacStudentMovement : MonoBehaviour
         transform.position = Vector2.Lerp(transform.position, new Vector2(-3.5f, 4f), 1f);
     }*/
 
-    private void TweenSetup()
+    //Used the Tween script from week 7 labs. It becomes unused as the lerp tweening solution did not work,
+    //but the fields gave insight on how to make PacStudent move.
+    //
+    /*private void TweenSetup()
     {
         tweenList.Add(new Tween(transform, transform.position, new Vector3(-3.5f, 4f, 0f), Time.time, 1f));
         tweenList.Add(new Tween(transform, transform.position, new Vector3(-3.5f, 2.78f, 0f), Time.time, 1f));
         tweenList.Add(new Tween(transform, transform.position, new Vector3(-5.04f, 2.78f, 0f), Time.time, 1f));
         tweenList.Add(new Tween(transform, transform.position, new Vector3(-5.04f, 4f, 0f), Time.time, 1f));
-    }
+    }*/
 }
