@@ -6,6 +6,11 @@ public class PacStudentMovement : MonoBehaviour
 {
     private Vector3[] endPosArray;
     private Vector3[] speedArray;
+    private Vector3 originPoint = new Vector3(-5.21f, 4.1f, 0f);
+    private Vector3 point1;
+    private Vector3 point2;
+    private Vector3 point3;
+    [SerializeField] private float pacSpeed = 1f;
     private int PosCounter;
     private Animator anim;
     private AudioSource sound;
@@ -13,10 +18,10 @@ public class PacStudentMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SetPoints();
         anim = GetComponent<Animator>();
         sound = GetComponent<AudioSource>();
-        endPosArray = new Vector3[] { new Vector3(-3.5f, 4f, 0f), new Vector3(-3.5f, 2.78f, 0f), new Vector3(-5.04f, 2.78f, 0f), new Vector3(-5.04f, 4f, 0f)};
-        speedArray = new Vector3[] { new Vector3(1f, 0f, 0f), new Vector3(0f, -1f, 0f), new Vector3(-1f, 0f, 0f), new Vector3(0f, 1f, 0f)};
+        transform.position = originPoint;
         anim.Play("PacStudentRight");
         sound.Play();
     }
@@ -56,6 +61,17 @@ public class PacStudentMovement : MonoBehaviour
 
     }
 
+    private void SetPoints()
+    {
+        point1 = originPoint + new Vector3(1.59f, 0f, 0f);
+        point2 = originPoint + new Vector3(1.59f, -1.3f, 0f);
+        point3 = originPoint + new Vector3(0f, -1.3f, 0f);
+        //Debug.Log(point1);
+        //Debug.Log(point2);
+        //Debug.Log(point3);
+        endPosArray = new Vector3[] { point1, point2, point3, originPoint };
+        speedArray = new Vector3[] { new Vector3(pacSpeed, 0f, 0f), new Vector3(0f, -(pacSpeed), 0f), new Vector3(-(pacSpeed), 0f, 0f), new Vector3(0f, pacSpeed, 0f) };
+    }
     /*private void Move()
     {
         transform.position = Vector2.Lerp(transform.position, new Vector2(-3.5f, 4f), 1f);
