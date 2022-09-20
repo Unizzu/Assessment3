@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 11340723}
   - component: {fileID: 11340722}
   m_Layer: 0
-  m_Name: PowerPellet_0 (2)
+  m_Name: PowerPellet3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,7 +226,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &257333941
 GameObject:
@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 374095351}
   - component: {fileID: 374095350}
   m_Layer: 0
-  m_Name: Pellet_0
+  m_Name: Pellet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -551,7 +551,7 @@ GameObject:
   - component: {fileID: 624536547}
   - component: {fileID: 624536546}
   m_Layer: 0
-  m_Name: BonusCherry_0
+  m_Name: BonusCherry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -636,7 +636,7 @@ GameObject:
   - component: {fileID: 954552517}
   - component: {fileID: 954552516}
   m_Layer: 0
-  m_Name: PowerPellet_0 (1)
+  m_Name: PowerPellet2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -727,7 +727,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1003367013
 GameObject:
@@ -743,7 +743,7 @@ GameObject:
   - component: {fileID: 1003367017}
   - component: {fileID: 1003367018}
   m_Layer: 0
-  m_Name: PacStudent Front_0
+  m_Name: PacStudent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -957,7 +957,7 @@ GameObject:
   - component: {fileID: 1257657749}
   - component: {fileID: 1257657751}
   m_Layer: 0
-  m_Name: Ghost3Up_0
+  m_Name: Ghost3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1062,7 +1062,7 @@ GameObject:
   - component: {fileID: 1265348287}
   - component: {fileID: 1265348289}
   m_Layer: 0
-  m_Name: Ghost4Up_0
+  m_Name: Ghost4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1198,7 +1198,7 @@ Transform:
   m_Children:
   - {fileID: 2044576710}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1771880553
 GameObject:
@@ -1212,7 +1212,7 @@ GameObject:
   - component: {fileID: 1771880555}
   - component: {fileID: 1771880554}
   m_Layer: 0
-  m_Name: PowerPellet_0 (3)
+  m_Name: PowerPellet4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1303,7 +1303,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1845297360
 GameObject:
@@ -1317,7 +1317,7 @@ GameObject:
   - component: {fileID: 1845297361}
   - component: {fileID: 1845297363}
   m_Layer: 0
-  m_Name: Ghost2Up_0
+  m_Name: Ghost2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1422,7 +1422,7 @@ GameObject:
   - component: {fileID: 1984484695}
   - component: {fileID: 1984484697}
   m_Layer: 0
-  m_Name: PowerPellet_0
+  m_Name: PowerPellet1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9926,7 +9926,7 @@ GameObject:
   - component: {fileID: 2056971202}
   - component: {fileID: 2056971201}
   m_Layer: 0
-  m_Name: LifeIndicator_0
+  m_Name: LifeIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10011,7 +10011,7 @@ GameObject:
   - component: {fileID: 2065386651}
   - component: {fileID: 2065386653}
   m_Layer: 0
-  m_Name: Ghost1Up_0
+  m_Name: Ghost1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10117,7 +10117,7 @@ GameObject:
   - component: {fileID: 2073109602}
   - component: {fileID: 2073109601}
   m_Layer: 0
-  m_Name: PacStudent Dead_0
+  m_Name: DeadPacStudent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
