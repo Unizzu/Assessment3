@@ -51,7 +51,6 @@ public class BumpColliderController : MonoBehaviour
         Instantiate(bumpParticle, transform.position, Quaternion.identity, particleSpawner);
         bumpSound.Play();
         //Debug.Log("Bumped! " + bumped);
-        transform.localPosition = Vector3.zero;
         yield return new WaitForSeconds(0.5f);
         bumped = false;
     }
