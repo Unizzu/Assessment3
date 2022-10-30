@@ -12,10 +12,10 @@ public class PacStudentController : MonoBehaviour
 
     private Animator anim;
     private AudioSource pacSound;
-    private Vector3Int[] NextPosArray = new Vector3Int[] { new Vector3Int(0, 0, 0), new Vector3Int(-1, 0, 0), new Vector3Int(1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0) };
+    private Vector3Int[] NextPosArray = new Vector3Int[] { Vector3Int.zero, new Vector3Int(-1, 0, 0), new Vector3Int(1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0) };
     private Quaternion[] DustRotation = new Quaternion[] { new Quaternion(0, 0, 0, 1), new Quaternion(0, 90, 0, 1), new Quaternion(0, -90, 0, 1), new Quaternion(90, 0, 0, 1), new Quaternion(-90, 0, 0, 1)};
     public enum Direction {None, Left, Right, Up, Down};
-    private Direction lastDirection = Direction.None;
+    public static Direction lastDirection = Direction.None;
     private KeyCode lastInput;
     private KeyCode currentInput;
     private TileBase NextTile;
