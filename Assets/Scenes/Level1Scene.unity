@@ -457,7 +457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameStart: {fileID: 8300000, guid: 43de50147ab30cc459f4fff415a7a61b, type: 3}
   ghostNormal: {fileID: 8300000, guid: 145924a523b0c934b9d809d690009ee9, type: 3}
-  PacStudent: {fileID: 1003367013}
+  PacStudent: {fileID: 1003367019}
 --- !u!82 &257333943
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2094,6 +2094,9 @@ MonoBehaviour:
   mapTile: {fileID: 2044576712}
   particleSpawner: {fileID: 155928168}
   dustParticle: {fileID: 1435379055247694596, guid: a313cceb7b511ad49bef8b654f0ec8d5, type: 3}
+  poofParticle: {fileID: 7039741493914212653, guid: 6e763a4a21f206f47a757ed5746fac25, type: 3}
+  apScript: {fileID: 257333942}
+  hudScript: {fileID: 1077873891}
   clipArray:
   - {fileID: 8300000, guid: f1e6f8481475490438d5b648cf8a7e94, type: 3}
   - {fileID: 8300000, guid: 2241623efeb850f4b9ff7420b2430f8f, type: 3}
@@ -2154,6 +2157,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1077873890}
+  - component: {fileID: 1077873891}
   m_Layer: 0
   m_Name: HUDManager
   m_TagString: Untagged
@@ -2176,6 +2180,18 @@ Transform:
   m_Father: {fileID: 86346883}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1077873891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077873889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7127618a94852a4f96c5df8ce95c792, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1209560479
 GameObject:
   m_ObjectHideFlags: 0

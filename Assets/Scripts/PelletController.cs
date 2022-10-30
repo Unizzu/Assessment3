@@ -7,11 +7,12 @@ public class PelletController : MonoBehaviour
     private AudioSource pelletAudio;
     private Renderer rend;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         pelletAudio = GetComponent<AudioSource>();
         rend = GetComponent<Renderer>();
     }
+
 
     // Update is called once per frame
     void Update()

@@ -7,14 +7,14 @@ public class AudioPlayer : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private AudioClip gameStart;
     [SerializeField] private AudioClip ghostNormal;
-    [SerializeField] private GameObject PacStudent;
-    private PacStudentMovement PacMovement;
+    [SerializeField] private PacStudentController PacStudent;
+    //private PacStudentMovement PacMovement;
     private AudioSource audioPlayer;
     void Start()
     {
         audioPlayer = GetComponent<AudioSource>();
         audioPlayer.loop = false;
-        PacMovement = PacStudent.GetComponent<PacStudentMovement>();
+        //PacMovement = PacStudent.GetComponent<PacStudentMovement>();
         StartCoroutine(playStart());
     }
 
@@ -31,6 +31,7 @@ public class AudioPlayer : MonoBehaviour
         yield return new WaitForSeconds(audioPlayer.clip.length);
         audioPlayer.loop = true;
         audioPlayer.clip = ghostNormal;
+        PacStudent.EnableGame();
         audioPlayer.Play();
     }
 }

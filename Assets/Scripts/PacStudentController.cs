@@ -9,6 +9,9 @@ public class PacStudentController : MonoBehaviour
     [SerializeField] private Tilemap mapTile;
     [SerializeField] private Transform particleSpawner;
     [SerializeField] private GameObject dustParticle;
+    [SerializeField] private GameObject poofParticle;
+    [SerializeField] private AudioPlayer apScript;
+    [SerializeField] private HUDController hudScript; 
     [SerializeField] private AudioClip[] clipArray;
 
     private Animator anim;
@@ -28,6 +31,7 @@ public class PacStudentController : MonoBehaviour
     private float pacSpeed = 1.5f;
     private bool isLerping;
     private bool isDead;
+    private bool gameEnabled = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +40,7 @@ public class PacStudentController : MonoBehaviour
         col = GetComponent<Collider2D>();
         pacSound.clip = clipArray[0];
         CurrentPos = StartPos;
+        anim.speed = 0;
         
         //Debug.Log(CurrentPos);
         //Debug.Log(TargetPos);
@@ -46,40 +51,43 @@ public class PacStudentController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isDead)
+        if(gameEnabled)
         {
-            GetInput();
-            PlayWalk();
-            float step = pacSpeed * Time.deltaTime;
-            if (!isLerping)
+            if (!isDead)
             {
-                TargetPos = CurrentPos + NextPosArray[(int)lastDirection];
-                NextPos = TargetPos + NextPosArray[(int)lastDirection];
-                anim.speed = 0;
-            }
-            NextTile = mapTile.GetTile(TargetPos);
-            if (NextTile.name == "Tiles_0" || NextTile.name == "Tiles_5" || NextTile.name == "Tiles_6")
-            {
-                if (Vector3.Distance(transform.position, mapTile.GetCellCenterWorld(TargetPos)) > 0.01f)
+                GetInput();
+                PlayWalk();
+                float step = pacSpeed * Time.deltaTime;
+                if (!isLerping)
                 {
-                    anim.speed = 1;
-                    anim.SetInteger("Direction", (int)lastDirection);
-                    transform.position = Vector3.MoveTowards(transform.position, mapTile.GetCellCenterWorld(TargetPos), step);
-                    isLerping = true;
-                }
-                else if (Vector3.Distance(transform.position, mapTile.GetCellCenterWorld(TargetPos)) <= 0.01f)
-                {
-                    transform.position = mapTile.GetCellCenterWorld(TargetPos);
-                    currentInput = lastInput;
-                    CurrentPos = TargetPos;
-                    TargetPos = NextPos;
+                    TargetPos = CurrentPos + NextPosArray[(int)lastDirection];
+                    NextPos = TargetPos + NextPosArray[(int)lastDirection];
                     anim.speed = 0;
-                    isLerping = false;
                 }
-            }
-            else
-            {
-                lastDirection = Direction.None;
+                NextTile = mapTile.GetTile(TargetPos);
+                if (NextTile.name == "Tiles_0" || NextTile.name == "Tiles_5" || NextTile.name == "Tiles_6")
+                {
+                    if (Vector3.Distance(transform.position, mapTile.GetCellCenterWorld(TargetPos)) > 0.01f)
+                    {
+                        anim.speed = 1;
+                        anim.SetInteger("Direction", (int)lastDirection);
+                        transform.position = Vector3.MoveTowards(transform.position, mapTile.GetCellCenterWorld(TargetPos), step);
+                        isLerping = true;
+                    }
+                    else if (Vector3.Distance(transform.position, mapTile.GetCellCenterWorld(TargetPos)) <= 0.01f)
+                    {
+                        transform.position = mapTile.GetCellCenterWorld(TargetPos);
+                        currentInput = lastInput;
+                        CurrentPos = TargetPos;
+                        TargetPos = NextPos;
+                        anim.speed = 0;
+                        isLerping = false;
+                    }
+                }
+                else
+                {
+                    lastDirection = Direction.None;
+                }
             }
         }
         
@@ -139,34 +147,36 @@ public class PacStudentController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Teleporter")
+        if(gameEnabled)
         {
-            Teleporter teleporter = collision.gameObject.GetComponent<Teleporter>();
-            transform.position = mapTile.GetCellCenterWorld(teleporter.getTargetTilePos());
-            CurrentPos = teleporter.getTargetTilePos();
-            TargetPos = CurrentPos + NextPosArray[(int)lastDirection];
+            if (collision.tag == "Teleporter")
+            {
+                Teleporter teleporter = collision.gameObject.GetComponent<Teleporter>();
+                transform.position = mapTile.GetCellCenterWorld(teleporter.getTargetTilePos());
+                CurrentPos = teleporter.getTargetTilePos();
+                TargetPos = CurrentPos + NextPosArray[(int)lastDirection];
+            }
+            if (collision.tag == "Pellet")
+            {
+                PelletController pc = collision.gameObject.GetComponent<PelletController>();
+                pc.pelletCollected();
+            }
+            if (collision.tag == "PowerPellet")
+            {
+
+                Destroy(collision.gameObject);
+            }
+            if (collision.tag == "BonusCherry")
+            {
+                Renderer cherryRender = collision.gameObject.GetComponent<Renderer>();
+                cherryRender.enabled = false;
+            }
+            if (collision.tag == "Ghost")
+            {
+                isDead = true;
+                StartCoroutine(DeadRecover());
+            }
         }
-        if(collision.tag == "Pellet")
-        {
-            PelletController pc = collision.gameObject.GetComponent<PelletController>();
-            pc.pelletCollected();
-        }
-        if(collision.tag == "PowerPellet")
-        {
-            
-            Destroy(collision.gameObject);
-        }
-        if(collision.tag == "BonusCherry")
-        {
-            Renderer cherryRender = collision.gameObject.GetComponent<Renderer>();
-            cherryRender.enabled = false;
-        }
-        if(collision.tag == "Ghost")
-        {
-            isDead = true;
-            StartCoroutine(DeadRecover());
-        }
-        
     }
 
     IEnumerator DeadRecover()
@@ -178,10 +188,20 @@ public class PacStudentController : MonoBehaviour
         yield return new WaitForSeconds(pacSound.clip.length);
         pacSound.clip = clipArray[0];
         pacSound.loop = true;
+        Instantiate(poofParticle, transform.position, Quaternion.identity, particleSpawner);
         transform.position = mapTile.GetCellCenterWorld(StartPos);
         TargetPos = StartPos;
         lastDirection = Direction.None;
         isDead = false;
         anim.SetBool("dead", false);
+    }
+
+    public void EnableGame()
+    {
+        gameEnabled = true;
+    }
+    public void DisableGame()
+    {
+        gameEnabled = false;
     }
 }
