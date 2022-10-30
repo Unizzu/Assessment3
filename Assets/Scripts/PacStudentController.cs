@@ -12,6 +12,7 @@ public class PacStudentController : MonoBehaviour
 
     private Animator anim;
     private AudioSource pacSound;
+    private Collider2D col;
     private Vector3Int[] NextPosArray = new Vector3Int[] { Vector3Int.zero, new Vector3Int(-1, 0, 0), new Vector3Int(1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0) };
     private Quaternion[] DustRotation = new Quaternion[] { new Quaternion(0, 0, 0, 1), new Quaternion(0, 90, 0, 1), new Quaternion(0, -90, 0, 1), new Quaternion(90, 0, 0, 1), new Quaternion(-90, 0, 0, 1)};
     public enum Direction {None, Left, Right, Up, Down};
@@ -30,6 +31,7 @@ public class PacStudentController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         pacSound = GetComponent<AudioSource>();
+        col = GetComponent<Collider2D>();
 
         CurrentPos = StartPos;
         
@@ -128,5 +130,29 @@ public class PacStudentController : MonoBehaviour
             Instantiate(dustParticle, transform.position, DustRotation[(int)lastDirection], particleSpawner);
         }
         StartCoroutine(dustBehavior());
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Teleporter")
+        {
+            Teleporter teleporter = collision.gameObject.GetComponent<Teleporter>();
+            transform.position = mapTile.GetCellCenterWorld(teleporter.getTargetTilePos());
+            CurrentPos = teleporter.getTargetTilePos();
+            TargetPos = CurrentPos + NextPosArray[(int)lastDirection];
+        }
+        if(collision.tag == "Pellet")
+        {
+            Destroy(collision.gameObject);
+        }
+        if(collision.tag == "PowerPellet")
+        {
+            Destroy(collision.gameObject);
+        }
+        if(collision.tag == "BonusCherry")
+        {
+            Renderer cherryRender = collision.gameObject.GetComponent<Renderer>();
+            cherryRender.enabled = false;
+        }
     }
 }
