@@ -60,8 +60,8 @@ public class CherryController : MonoBehaviour
         binaryChoice = Random.Range(0, 2);
         if (binaryChoice == 0)
         {
-            randomX1 = Random.Range(-13f, 11f);
-            randomX2 = Random.Range(-13f, 11f);
+            randomX1 = Random.Range(-13.5f, 11f);
+            randomX2 = Random.Range(-13.5f, 11f);
             Pos1 = new Vector3(randomX1, -5.5f, 0f);
             Pos2 = new Vector3(randomX2, 5.5f, 0f);
         }
@@ -69,7 +69,7 @@ public class CherryController : MonoBehaviour
         {
             randomY1 = Random.Range(-5.5f, 5.5f);
             randomY2 = Random.Range(-5.5f, 5.5f);
-            Pos1 = new Vector3(-13f, randomY1, 0f);
+            Pos1 = new Vector3(-13.5f, randomY1, 0f);
             Pos2 = new Vector3(11f, randomY2, 0f);
         }
         binaryChoice = Random.Range(0, 2);
