@@ -8,6 +8,7 @@ public class AudioPlayer : MonoBehaviour
     [SerializeField] private AudioClip gameStart;
     [SerializeField] private AudioClip ghostNormal;
     [SerializeField] private PacStudentController PacStudent;
+    [SerializeField] private HUDController hudControl;
     //private PacStudentMovement PacMovement;
     private AudioSource audioPlayer;
     void Start()
@@ -31,6 +32,7 @@ public class AudioPlayer : MonoBehaviour
         yield return new WaitForSeconds(audioPlayer.clip.length);
         audioPlayer.loop = true;
         audioPlayer.clip = ghostNormal;
+        hudControl.enableGame();
         PacStudent.EnableGame();
         audioPlayer.Play();
     }
