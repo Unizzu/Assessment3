@@ -8,7 +8,7 @@ public class PacStudentController : MonoBehaviour
     [SerializeField] public Grid mapGrid;
     [SerializeField] private Tilemap mapTile;
     [SerializeField] private Transform particleSpawner;
-    [SerializeField] private GameObject partSys;
+    [SerializeField] private GameObject dustParticle;
 
     private Animator anim;
     private AudioSource pacSound;
@@ -125,7 +125,7 @@ public class PacStudentController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if(isLerping)
         {
-            Instantiate(partSys, transform.position, DustRotation[(int)lastDirection], particleSpawner);
+            Instantiate(dustParticle, transform.position, DustRotation[(int)lastDirection], particleSpawner);
         }
         StartCoroutine(dustBehavior());
     }
