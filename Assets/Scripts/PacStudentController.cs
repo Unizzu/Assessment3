@@ -9,6 +9,7 @@ public class PacStudentController : MonoBehaviour
     [SerializeField] private Tilemap mapTile;
     [SerializeField] private Transform particleSpawner;
     [SerializeField] private GameObject dustParticle;
+    [SerializeField] private AudioClip[] clipArray;
 
     private Animator anim;
     private AudioSource pacSound;
@@ -26,13 +27,14 @@ public class PacStudentController : MonoBehaviour
     private Vector3Int NextPos;
     private float pacSpeed = 1.5f;
     private bool isLerping;
+    private bool isDead;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         pacSound = GetComponent<AudioSource>();
         col = GetComponent<Collider2D>();
-
+        pacSound.clip = clipArray[0];
         CurrentPos = StartPos;
         
         //Debug.Log(CurrentPos);
@@ -44,38 +46,41 @@ public class PacStudentController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetInput();
-        PlayWalk();
-        float step = pacSpeed * Time.deltaTime;
-        if(!isLerping)
+        if(!isDead)
         {
-            TargetPos = CurrentPos + NextPosArray[(int)lastDirection];
-            NextPos = TargetPos + NextPosArray[(int)lastDirection];
-            anim.speed = 0;
-        }
-        NextTile = mapTile.GetTile(TargetPos);
-        if (NextTile.name == "Tiles_0" || NextTile.name == "Tiles_5" || NextTile.name == "Tiles_6")
-        {
-            if (Vector3.Distance(transform.position, mapTile.GetCellCenterWorld(TargetPos)) > 0.01f)
+            GetInput();
+            PlayWalk();
+            float step = pacSpeed * Time.deltaTime;
+            if (!isLerping)
             {
-                anim.speed = 1;
-                anim.SetInteger("Direction", (int)lastDirection);
-                transform.position = Vector3.MoveTowards(transform.position, mapTile.GetCellCenterWorld(TargetPos), step);
-                isLerping = true;
-            }
-            else if (Vector3.Distance(transform.position, mapTile.GetCellCenterWorld(TargetPos)) <= 0.01f)
-            {
-                transform.position = mapTile.GetCellCenterWorld(TargetPos);
-                currentInput = lastInput;
-                CurrentPos = TargetPos;
-                TargetPos = NextPos;
+                TargetPos = CurrentPos + NextPosArray[(int)lastDirection];
+                NextPos = TargetPos + NextPosArray[(int)lastDirection];
                 anim.speed = 0;
-                isLerping = false;
             }
-        }
-        else
-        {
-            lastDirection = Direction.None;
+            NextTile = mapTile.GetTile(TargetPos);
+            if (NextTile.name == "Tiles_0" || NextTile.name == "Tiles_5" || NextTile.name == "Tiles_6")
+            {
+                if (Vector3.Distance(transform.position, mapTile.GetCellCenterWorld(TargetPos)) > 0.01f)
+                {
+                    anim.speed = 1;
+                    anim.SetInteger("Direction", (int)lastDirection);
+                    transform.position = Vector3.MoveTowards(transform.position, mapTile.GetCellCenterWorld(TargetPos), step);
+                    isLerping = true;
+                }
+                else if (Vector3.Distance(transform.position, mapTile.GetCellCenterWorld(TargetPos)) <= 0.01f)
+                {
+                    transform.position = mapTile.GetCellCenterWorld(TargetPos);
+                    currentInput = lastInput;
+                    CurrentPos = TargetPos;
+                    TargetPos = NextPos;
+                    anim.speed = 0;
+                    isLerping = false;
+                }
+            }
+            else
+            {
+                lastDirection = Direction.None;
+            }
         }
         
     }
@@ -143,10 +148,12 @@ public class PacStudentController : MonoBehaviour
         }
         if(collision.tag == "Pellet")
         {
-            Destroy(collision.gameObject);
+            PelletController pc = collision.gameObject.GetComponent<PelletController>();
+            pc.pelletCollected();
         }
         if(collision.tag == "PowerPellet")
         {
+            
             Destroy(collision.gameObject);
         }
         if(collision.tag == "BonusCherry")
@@ -154,5 +161,27 @@ public class PacStudentController : MonoBehaviour
             Renderer cherryRender = collision.gameObject.GetComponent<Renderer>();
             cherryRender.enabled = false;
         }
+        if(collision.tag == "Ghost")
+        {
+            isDead = true;
+            StartCoroutine(DeadRecover());
+        }
+        
+    }
+
+    IEnumerator DeadRecover()
+    {
+        anim.SetBool("dead", true);
+        pacSound.clip = clipArray[2];
+        pacSound.loop = false;
+        pacSound.Play();
+        yield return new WaitForSeconds(pacSound.clip.length);
+        pacSound.clip = clipArray[0];
+        pacSound.loop = true;
+        transform.position = mapTile.GetCellCenterWorld(StartPos);
+        TargetPos = StartPos;
+        lastDirection = Direction.None;
+        isDead = false;
+        anim.SetBool("dead", false);
     }
 }
